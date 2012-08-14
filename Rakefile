@@ -13,6 +13,7 @@ begin
     gem.add_development_dependency "riot"
     gem.add_dependency "builder"
     gem.add_dependency "rack"
+    gem.add_dependency "coderay"
     if RUBY_PLATFORM =~ /win32/
       gem.add_dependency "maruku"
     else

@@ -4,6 +4,7 @@ require 'erb'
 require 'rack'
 require 'digest'
 require 'open-uri'
+require 'coderay'
 
 if RUBY_PLATFORM =~ /win32/
   require 'maruku'
@@ -260,6 +261,7 @@ module Toto
         self[:body].match(/(.{1,#{length || config[:length] || config[:max]}}.*?)(\n|\Z)/m).to_s
       end
       markdown(sum.length == self[:body].length ? sum : sum.strip.sub(/\.\Z/, '&hellip;'))
+      'test'
     end
 
     def url
