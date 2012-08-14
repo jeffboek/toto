@@ -260,8 +260,7 @@ module Toto
       else
         self[:body].match(/(.{1,#{length || config[:length] || config[:max]}}.*?)(\n|\Z)/m).to_s
       end
-      markdown(sum.length == self[:body].length ? sum : sum.strip.sub(/\.\Z/, '&hellip;'))
-      'test'
+      markdown(coderay(sum.length == self[:body].length ? sum : sum.strip.sub(/\.\Z/, '&hellip;')))
     end
 
     def url
@@ -270,11 +269,17 @@ module Toto
     alias :permalink url
 
     def body
-      markdown self[:body].sub(@config[:summary][:delim], '') rescue markdown self[:body]
+      markdown coderay(self[:body].sub(@config[:summary][:delim], '')) rescue markdown self[:body]
     end
 
     def path
       "/#{@config[:prefix]}#{self[:date].strftime("/%Y/%m/%d/#{slug}/")}".squeeze('/')
+    end
+
+    def coderay(text)
+      text.gsub(/\<code( lang="(.+?)")?\>(.+?)\<\/code\>/m) do
+        CodeRay.scan($3, $2).div(:css => :class)
+      end
     end
 
     def title()   self[:title] || "an article"               end
